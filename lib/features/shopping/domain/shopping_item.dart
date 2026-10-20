@@ -1,0 +1,1 @@
+class ShoppingItem { const ShoppingItem({required this.id, required this.name, required this.quantity, this.inCart = false}); final String id; final String name; final String quantity; final bool inCart; ShoppingItem copyWith({bool? inCart}) => ShoppingItem(id: id, name: name, quantity: quantity, inCart: inCart ?? this.inCart); }

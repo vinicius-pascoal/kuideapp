@@ -5,10 +5,10 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_spacing.dart';
 import '../../../core/providers/app_providers.dart';
-import '../../../features/onboarding/presentation/onboarding_provider.dart';
 import '../../../features/medications/presentation/medication_provider.dart';
 import '../../../features/tasks/domain/task.dart';
 import '../../../features/tasks/presentation/task_provider.dart';
+import '../../../features/appointments/presentation/appointment_provider.dart';
 import '../../../shared/widgets/app_card.dart';
 import '../data/home_mock_data.dart';
 import '../domain/quick_access_item.dart';
@@ -19,9 +19,10 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(authSessionProvider);
-    final onboarding = ref.watch(onboardingProvider);
     final medications = ref.watch(medicationsProvider);
     final pendingTasks = ref.watch(tasksProvider).where((task) => !task.completed).toList();
+    final appointments = ref.watch(appointmentsProvider);
+    final nextAppointment = appointments.first;
     final name = session.displayName?.trim().isNotEmpty == true ? session.displayName! : 'Maria Santos';
     final pendingMedications = medications.where((medication) => !medication.taken).toList();
     final nextMedication = pendingMedications.isEmpty ? medications.first : pendingMedications.first;
@@ -61,6 +62,8 @@ class HomeScreen extends ConsumerWidget {
         _TodayCard(
           medication: medication,
           medicationTime: medicationTime,
+          appointmentTitle: nextAppointment.title,
+          appointmentDetail: '${nextAppointment.doctor ?? nextAppointment.clinic} • ${nextAppointment.clinic}',
           onMedicationTap: () => context.push('/medications'),
           onAppointmentTap: () => context.push('/appointments'),
           onRoutineTap: () => context.go('/routine'),
@@ -97,8 +100,8 @@ class HomeScreen extends ConsumerWidget {
         const SizedBox(height: AppSpacing.sm),
         _OutstandingItem(
           icon: Icons.calendar_month_outlined,
-          title: onboarding.nextAppointment.isEmpty ? 'Consulta com cardiologista' : onboarding.nextAppointment,
-          detail: onboarding.primaryDoctor.isEmpty ? 'Dr. Roberto Silva • Clínica Vida' : onboarding.primaryDoctor,
+          title: nextAppointment.title,
+          detail: nextAppointment.doctor ?? nextAppointment.clinic,
           onTap: () => context.push('/appointments'),
         ),
       ],
@@ -117,6 +120,8 @@ class _TodayCard extends StatelessWidget {
   const _TodayCard({
     required this.medication,
     required this.medicationTime,
+    required this.appointmentTitle,
+    required this.appointmentDetail,
     required this.onMedicationTap,
     required this.onAppointmentTap,
     required this.onRoutineTap,
@@ -124,6 +129,8 @@ class _TodayCard extends StatelessWidget {
 
   final String medication;
   final String medicationTime;
+  final String appointmentTitle;
+  final String appointmentDetail;
   final VoidCallback onMedicationTap;
   final VoidCallback onAppointmentTap;
   final VoidCallback onRoutineTap;
@@ -144,7 +151,7 @@ class _TodayCard extends StatelessWidget {
             const SizedBox(height: AppSpacing.md),
             _TodayAction(icon: Icons.medication_outlined, title: medication, subtitle: 'Tomar às $medicationTime', onTap: onMedicationTap),
             const Divider(color: AppColors.lightText),
-            _TodayAction(icon: Icons.calendar_month_outlined, title: 'Consulta com cardiologista', subtitle: 'Dr. Roberto Silva • Clínica Vida', onTap: onAppointmentTap),
+            _TodayAction(icon: Icons.calendar_month_outlined, title: appointmentTitle, subtitle: appointmentDetail, onTap: onAppointmentTap),
             const SizedBox(height: AppSpacing.sm),
             TextButton(onPressed: onRoutineTap, child: const Text('Ver rotina completa', style: TextStyle(color: AppColors.lightText))),
           ],

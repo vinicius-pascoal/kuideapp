@@ -7,6 +7,7 @@ import '../../../app/theme/app_spacing.dart';
 import '../../../features/medications/presentation/medication_provider.dart';
 import '../../../features/tasks/domain/task.dart';
 import '../../../features/tasks/presentation/task_provider.dart';
+import '../../../features/appointments/presentation/appointment_provider.dart';
 import '../../../shared/widgets/app_card.dart';
 import '../../../shared/widgets/app_header.dart';
 
@@ -26,6 +27,7 @@ class _RoutineScreenState extends ConsumerState<RoutineScreen> {
     final selectedDate = today.add(Duration(days: _selectedOffset));
     final medications = ref.watch(medicationsProvider);
     final tasks = ref.watch(tasksProvider).where((task) => DateUtils.isSameDay(task.date, selectedDate)).toList();
+    final appointments = ref.watch(appointmentsProvider);
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -39,14 +41,11 @@ class _RoutineScreenState extends ConsumerState<RoutineScreen> {
             const SizedBox(height: AppSpacing.sm),
             const Text('Compromissos'),
             const SizedBox(height: AppSpacing.xs),
-            const AppCard(
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: Icon(Icons.calendar_month_outlined, color: AppColors.wine),
-                title: Text('Consulta com cardiologista'),
-                subtitle: Text('10:00 • Dr. Roberto Silva'),
+            for (final appointment in appointments)
+              Padding(
+                padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+                child: AppCard(child: ListTile(contentPadding: EdgeInsets.zero, leading: const Icon(Icons.calendar_month_outlined, color: AppColors.wine), title: Text(appointment.title), subtitle: Text('${appointment.dateTime.hour.toString().padLeft(2, '0')}:${appointment.dateTime.minute.toString().padLeft(2, '0')} • ${appointment.doctor ?? appointment.clinic}'))),
               ),
-            ),
             const SizedBox(height: AppSpacing.lg),
             Text('Medicamentos', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: AppSpacing.sm),
