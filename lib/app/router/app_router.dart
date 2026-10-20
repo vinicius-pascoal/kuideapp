@@ -7,6 +7,7 @@ import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/logout_screen.dart';
 import '../../features/auth/presentation/register_screen.dart';
 import '../../features/auth/presentation/splash_screen.dart';
+import '../../features/onboarding/presentation/onboarding_screen.dart';
 import '../../features/home/presentation/home_placeholder_screen.dart';
 import '../../features/health/presentation/health_placeholder_screen.dart';
 import '../../features/profile/presentation/profile_placeholder_screen.dart';
@@ -20,6 +21,18 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
     GoRoute(path: '/register', builder: (context, state) => const RegisterScreen()),
     GoRoute(path: '/logout', builder: (context, state) => const LogoutScreen()),
+    GoRoute(
+      path: '/onboarding/medicines',
+      builder: (context, state) => const OnboardingScreen(step: OnboardingStep.medicines),
+    ),
+    GoRoute(
+      path: '/onboarding/doctor',
+      builder: (context, state) => const OnboardingScreen(step: OnboardingStep.doctor),
+    ),
+    GoRoute(
+      path: '/onboarding/emergency',
+      builder: (context, state) => const OnboardingScreen(step: OnboardingStep.emergency),
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) =>
           KuideScaffold(navigationShell: navigationShell),

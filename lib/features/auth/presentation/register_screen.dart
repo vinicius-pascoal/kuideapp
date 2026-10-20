@@ -48,7 +48,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           displayName: _nameController.text.trim(),
         );
     if (!mounted) return;
-    context.go('/home');
+    context.go('/onboarding/medicines');
   }
 
   @override
