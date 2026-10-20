@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/catalog/presentation/widget_catalog_screen.dart';
 import '../../features/home/presentation/home_placeholder_screen.dart';
 import '../../features/health/presentation/health_placeholder_screen.dart';
 import '../../features/profile/presentation/profile_placeholder_screen.dart';
@@ -48,5 +50,10 @@ final GoRouter appRouter = GoRouter(
         ),
       ],
     ),
+    if (kDebugMode)
+      GoRoute(
+        path: '/catalog',
+        builder: (context, state) => const WidgetCatalogScreen(),
+      ),
   ],
 );
