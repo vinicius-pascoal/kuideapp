@@ -1,0 +1,17 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../../app/theme/app_colors.dart';
+import '../../../app/theme/app_spacing.dart';
+import '../domain/contact.dart';
+import 'contact_provider.dart';
+
+class MockCallScreen extends ConsumerStatefulWidget { const MockCallScreen({required this.contactId, super.key}); final String contactId; @override ConsumerState<MockCallScreen> createState() => _MockCallScreenState(); }
+class _MockCallScreenState extends ConsumerState<MockCallScreen> { Timer? _timer; var _seconds = 0; var _muted = false; var _speaker = false;
+  @override void initState() { super.initState(); _timer = Timer.periodic(const Duration(seconds: 1), (_) { if (mounted) setState(() => _seconds++); }); }
+  @override void dispose() { _timer?.cancel(); super.dispose(); }
+  @override Widget build(BuildContext context) { final contact = widget.contactId == 'samu' ? const Contact(id: 'samu', name: 'SAMU 192', relationship: 'Emergência — simulação', phone: '192', category: ContactCategory.other) : ref.watch(contactsProvider).firstWhere((item) => item.id == widget.contactId, orElse: () => const Contact(id: 'unknown', name: 'Contato', relationship: '', phone: '', category: ContactCategory.other)); return Scaffold(backgroundColor: AppColors.wine, body: SafeArea(child: Padding(padding: const EdgeInsets.all(AppSpacing.lg), child: Column(children: [const SizedBox(height: AppSpacing.xl), CircleAvatar(radius: 52, backgroundColor: AppColors.lightText, foregroundColor: AppColors.wine, child: Text(contact.name.substring(0, 1), style: const TextStyle(fontSize: 38))), const SizedBox(height: AppSpacing.md), Text(contact.name, style: Theme.of(context).textTheme.displaySmall?.copyWith(color: AppColors.lightText), textAlign: TextAlign.center), Text('Chamada simulada • ${_clock(_seconds)}', style: const TextStyle(color: AppColors.lightText)), const SizedBox(height: AppSpacing.sm), const Text('Nenhuma ligação real foi iniciada.', style: TextStyle(color: AppColors.lightText), textAlign: TextAlign.center), const Spacer(), Wrap(spacing: AppSpacing.lg, runSpacing: AppSpacing.md, alignment: WrapAlignment.center, children: [IconButton.filled(onPressed: () => setState(() => _muted = !_muted), icon: Icon(_muted ? Icons.mic_off : Icons.mic), tooltip: 'Microfone'), IconButton.filled(onPressed: () => setState(() => _speaker = !_speaker), icon: Icon(_speaker ? Icons.volume_up : Icons.volume_down), tooltip: 'Viva-voz'), IconButton.filled(onPressed: () => _showKeypad(context), icon: const Icon(Icons.dialpad), tooltip: 'Teclado')]), const SizedBox(height: AppSpacing.xl), FilledButton.icon(onPressed: () => context.pop(), style: FilledButton.styleFrom(backgroundColor: AppColors.error, foregroundColor: AppColors.white, minimumSize: const Size(180, 56)), icon: const Icon(Icons.call_end), label: const Text('Encerrar simulação'))])))); }
+  String _clock(int seconds) => '${(seconds ~/ 60).toString().padLeft(2, '0')}:${(seconds % 60).toString().padLeft(2, '0')}';
+  void _showKeypad(BuildContext context) { showModalBottomSheet<void>(context: context, builder: (context) => GridView.count(crossAxisCount: 3, shrinkWrap: true, padding: const EdgeInsets.all(AppSpacing.lg), children: [for (final key in ['1','2','3','4','5','6','7','8','9','*','0','#']) TextButton(onPressed: () {}, child: Text(key, style: const TextStyle(fontSize: 24)))])); }
+}

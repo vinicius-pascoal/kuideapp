@@ -1,0 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../domain/contact.dart';
+final contactsProvider = NotifierProvider<ContactsController, List<Contact>>(ContactsController.new);
+class ContactsController extends Notifier<List<Contact>> { @override List<Contact> build() => const [Contact(id: 'ana', name: 'Ana Santos', relationship: 'Filha', phone: '(11) 99999-0001', category: ContactCategory.family, showOnHome: true), Contact(id: 'joao', name: 'João Santos', relationship: 'Filho', phone: '(11) 99999-0002', category: ContactCategory.family, showOnHome: true), Contact(id: 'marcelo', name: 'Dr. Marcelo', relationship: 'Cardiologista', phone: '(11) 99999-0003', category: ContactCategory.doctor), Contact(id: 'maria-nurse', name: 'Maria Enfermeira', relationship: 'Enfermeira', phone: '(11) 99999-0004', category: ContactCategory.other)]; void add(Contact contact) => state = [...state, contact]; }

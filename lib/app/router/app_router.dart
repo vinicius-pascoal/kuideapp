@@ -18,6 +18,10 @@ import '../../features/tasks/presentation/tasks_screen.dart';
 import '../../features/appointments/presentation/appointments_screen.dart';
 import '../../features/appointments/presentation/add_appointment_screen.dart';
 import '../../features/shopping/presentation/shopping_list_screen.dart';
+import '../../features/contacts/presentation/contacts_screen.dart';
+import '../../features/contacts/presentation/add_contact_screen.dart';
+import '../../features/contacts/presentation/mock_call_screen.dart';
+import '../../features/emergency/presentation/emergency_screen.dart';
 import '../../features/profile/presentation/profile_placeholder_screen.dart';
 import '../../shared/widgets/kuide_scaffold.dart';
 import '../../shared/widgets/module_placeholder_screen.dart';
@@ -48,8 +52,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: '/appointments/add', builder: (context, state) => const AddAppointmentScreen()),
     GoRoute(path: '/shopping', builder: (context, state) => const ShoppingListScreen()),
     GoRoute(path: '/tasks', builder: (context, state) => const TasksScreen()),
-    GoRoute(path: '/contacts', builder: (context, state) => const ModulePlaceholderScreen(title: 'Pessoas importantes')),
-    GoRoute(path: '/emergency', builder: (context, state) => const ModulePlaceholderScreen(title: 'Central de emergência')),
+    GoRoute(path: '/contacts', builder: (context, state) => const ContactsScreen()),
+    GoRoute(path: '/contacts/add', builder: (context, state) => const AddContactScreen()),
+    GoRoute(path: '/emergency', builder: (context, state) => const EmergencyScreen()),
+    GoRoute(path: '/mock-call/:contactId', builder: (context, state) => MockCallScreen(contactId: state.pathParameters['contactId']!)),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) =>
           KuideScaffold(navigationShell: navigationShell),
