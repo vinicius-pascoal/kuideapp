@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'app_buttons.dart';
+import 'kuide_logo.dart';
 
 class AppHeader extends StatelessWidget {
   const AppHeader({
@@ -25,6 +26,8 @@ class AppHeader extends StatelessWidget {
             )
           else
             const SizedBox(width: 48),
+          const KuideLogo(size: 30),
+          const SizedBox(width: 8),
           Expanded(child: Text(title, style: Theme.of(context).textTheme.headlineSmall)),
           action ?? const SizedBox(width: 48),
         ],

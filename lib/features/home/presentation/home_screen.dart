@@ -10,6 +10,7 @@ import '../../../features/tasks/presentation/task_provider.dart';
 import '../../../features/appointments/presentation/appointment_provider.dart';
 import '../../../features/profile/presentation/profile_provider.dart';
 import '../../../shared/widgets/app_card.dart';
+import '../../../shared/widgets/kuide_logo.dart';
 import '../data/home_mock_data.dart';
 import '../domain/quick_access_item.dart';
 
@@ -34,6 +35,8 @@ class HomeScreen extends ConsumerWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const KuideLogo(size: 44),
+            const SizedBox(width: AppSpacing.sm),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

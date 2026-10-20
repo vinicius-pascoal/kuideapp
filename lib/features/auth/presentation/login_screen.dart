@@ -6,6 +6,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_spacing.dart';
 import '../../../core/providers/app_providers.dart';
 import '../../../shared/widgets/app_buttons.dart';
+import '../../../shared/widgets/kuide_logo.dart';
 import '../../../shared/widgets/mock_action_dialog.dart';
 import 'auth_validators.dart';
 
@@ -141,16 +142,7 @@ class _LoginHeader extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 68,
-              height: 68,
-              decoration: BoxDecoration(
-                color: AppColors.cream,
-                border: Border.all(color: AppColors.cream, width: 3),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(Icons.favorite_rounded, color: AppColors.wineText, size: 35),
-            ),
+            const KuideLogo(size: 76, framed: true),
             const SizedBox(height: 12),
             Text(
               'KUIDE',
