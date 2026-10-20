@@ -1,17 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kuideapp/app/app.dart';
 
 void main() {
-  testWidgets('exibe o shell principal', (tester) async {
-    await tester.pumpWidget(const KuideApp());
+  testWidgets('a splash leva ao login', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: KuideApp()));
     await tester.pumpAndSettle();
 
-    expect(find.text('Início'), findsOneWidget);
-    expect(find.text('HOME'), findsOneWidget);
-
-    await tester.tap(find.text('SAÚDE'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Saúde'), findsOneWidget);
+    expect(find.text('Bem-vinda ao KUIDE'), findsOneWidget);
   });
 }

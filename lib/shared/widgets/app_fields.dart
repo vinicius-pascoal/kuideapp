@@ -34,10 +34,18 @@ class AppTextField extends StatelessWidget {
 }
 
 class AppPasswordField extends StatefulWidget {
-  const AppPasswordField({required this.label, super.key, this.controller});
+  const AppPasswordField({
+    required this.label,
+    super.key,
+    this.controller,
+    this.validator,
+    this.onChanged,
+  });
 
   final String label;
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
 
   @override
   State<AppPasswordField> createState() => _AppPasswordFieldState();
@@ -50,6 +58,8 @@ class _AppPasswordFieldState extends State<AppPasswordField> {
   Widget build(BuildContext context) => TextFormField(
         controller: widget.controller,
         obscureText: _obscured,
+        validator: widget.validator,
+        onChanged: widget.onChanged,
         decoration: InputDecoration(
           labelText: widget.label,
           suffixIcon: IconButton(
