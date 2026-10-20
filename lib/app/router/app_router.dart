@@ -10,7 +10,9 @@ import '../../features/auth/presentation/splash_screen.dart';
 import '../../features/onboarding/presentation/onboarding_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/home/presentation/quick_access_screen.dart';
-import '../../features/health/presentation/health_placeholder_screen.dart';
+import '../../features/health/presentation/health_history_screen.dart';
+import '../../features/medications/presentation/add_medication_screen.dart';
+import '../../features/medications/presentation/medications_screen.dart';
 import '../../features/profile/presentation/profile_placeholder_screen.dart';
 import '../../features/routine/presentation/routine_placeholder_screen.dart';
 import '../../shared/widgets/kuide_scaffold.dart';
@@ -36,7 +38,8 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const OnboardingScreen(step: OnboardingStep.emergency),
     ),
     GoRoute(path: '/quick-access', builder: (context, state) => const QuickAccessScreen()),
-    GoRoute(path: '/medications', builder: (context, state) => const ModulePlaceholderScreen(title: 'Medicamentos')),
+    GoRoute(path: '/medications', builder: (context, state) => const MedicationsScreen()),
+    GoRoute(path: '/medications/add', builder: (context, state) => const AddMedicationScreen()),
     GoRoute(path: '/appointments', builder: (context, state) => const ModulePlaceholderScreen(title: 'Compromissos')),
     GoRoute(path: '/shopping', builder: (context, state) => const ModulePlaceholderScreen(title: 'Compras')),
     GoRoute(path: '/tasks', builder: (context, state) => const ModulePlaceholderScreen(title: 'Tarefas')),
@@ -58,7 +61,7 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/health',
-              builder: (context, state) => const HealthPlaceholderScreen(),
+              builder: (context, state) => const HealthHistoryScreen(),
             ),
           ],
         ),

@@ -6,6 +6,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_spacing.dart';
 import '../../../core/providers/app_providers.dart';
 import '../../../features/onboarding/presentation/onboarding_provider.dart';
+import '../../../features/medications/presentation/medication_provider.dart';
 import '../../../shared/widgets/app_card.dart';
 import '../data/home_mock_data.dart';
 import '../domain/quick_access_item.dart';
@@ -17,9 +18,12 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(authSessionProvider);
     final onboarding = ref.watch(onboardingProvider);
+    final medications = ref.watch(medicationsProvider);
     final name = session.displayName?.trim().isNotEmpty == true ? session.displayName! : 'Maria Santos';
-    final medication = onboarding.medications.isEmpty ? 'Losartana 50 mg' : onboarding.medications.first.name;
-    final medicationTime = onboarding.medications.isEmpty ? '08:00' : onboarding.medications.first.time;
+    final pendingMedications = medications.where((medication) => !medication.taken).toList();
+    final nextMedication = pendingMedications.isEmpty ? medications.first : pendingMedications.first;
+    final medication = '${nextMedication.name} ${nextMedication.dosage}';
+    final medicationTime = nextMedication.time;
     return ListView(
       padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.lg, AppSpacing.lg, AppSpacing.xl),
       children: [
