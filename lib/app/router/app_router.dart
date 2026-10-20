@@ -13,8 +13,9 @@ import '../../features/home/presentation/quick_access_screen.dart';
 import '../../features/health/presentation/health_history_screen.dart';
 import '../../features/medications/presentation/add_medication_screen.dart';
 import '../../features/medications/presentation/medications_screen.dart';
+import '../../features/routine/presentation/routine_screen.dart';
+import '../../features/tasks/presentation/tasks_screen.dart';
 import '../../features/profile/presentation/profile_placeholder_screen.dart';
-import '../../features/routine/presentation/routine_placeholder_screen.dart';
 import '../../shared/widgets/kuide_scaffold.dart';
 import '../../shared/widgets/module_placeholder_screen.dart';
 
@@ -42,7 +43,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: '/medications/add', builder: (context, state) => const AddMedicationScreen()),
     GoRoute(path: '/appointments', builder: (context, state) => const ModulePlaceholderScreen(title: 'Compromissos')),
     GoRoute(path: '/shopping', builder: (context, state) => const ModulePlaceholderScreen(title: 'Compras')),
-    GoRoute(path: '/tasks', builder: (context, state) => const ModulePlaceholderScreen(title: 'Tarefas')),
+    GoRoute(path: '/tasks', builder: (context, state) => const TasksScreen()),
     GoRoute(path: '/contacts', builder: (context, state) => const ModulePlaceholderScreen(title: 'Pessoas importantes')),
     GoRoute(path: '/emergency', builder: (context, state) => const ModulePlaceholderScreen(title: 'Central de emergência')),
     StatefulShellRoute.indexedStack(
@@ -69,7 +70,7 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/routine',
-              builder: (context, state) => const RoutinePlaceholderScreen(),
+              builder: (context, state) => const RoutineScreen(),
             ),
           ],
         ),

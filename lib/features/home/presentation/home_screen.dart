@@ -7,6 +7,8 @@ import '../../../app/theme/app_spacing.dart';
 import '../../../core/providers/app_providers.dart';
 import '../../../features/onboarding/presentation/onboarding_provider.dart';
 import '../../../features/medications/presentation/medication_provider.dart';
+import '../../../features/tasks/domain/task.dart';
+import '../../../features/tasks/presentation/task_provider.dart';
 import '../../../shared/widgets/app_card.dart';
 import '../data/home_mock_data.dart';
 import '../domain/quick_access_item.dart';
@@ -19,6 +21,7 @@ class HomeScreen extends ConsumerWidget {
     final session = ref.watch(authSessionProvider);
     final onboarding = ref.watch(onboardingProvider);
     final medications = ref.watch(medicationsProvider);
+    final pendingTasks = ref.watch(tasksProvider).where((task) => !task.completed).toList();
     final name = session.displayName?.trim().isNotEmpty == true ? session.displayName! : 'Maria Santos';
     final pendingMedications = medications.where((medication) => !medication.taken).toList();
     final nextMedication = pendingMedications.isEmpty ? medications.first : pendingMedications.first;
@@ -80,9 +83,15 @@ class HomeScreen extends ConsumerWidget {
         const SizedBox(height: AppSpacing.xl),
         const SectionHeader(title: 'Ainda falta hoje'),
         const SizedBox(height: AppSpacing.sm),
-        _OutstandingItem(icon: Icons.medication_outlined, title: medication, detail: 'Tomar às $medicationTime', onTap: () => context.push('/medications')),
-        _OutstandingItem(icon: Icons.water_drop_outlined, title: 'Medir a pressão', detail: 'Registre como está se sentindo', onTap: () => context.go('/health')),
-        _OutstandingItem(icon: Icons.check_circle_outline, title: 'Comprar frutas', detail: 'Lista de compras', onTap: () => context.push('/shopping')),
+        if (pendingMedications.isNotEmpty)
+          _OutstandingItem(icon: Icons.medication_outlined, title: medication, detail: 'Tomar às $medicationTime', onTap: () => context.push('/medications')),
+        for (final task in pendingTasks.take(2))
+          _OutstandingItem(icon: Icons.check_circle_outline, title: task.title, detail: task.period.label, onTap: () => context.push('/tasks')),
+        if (pendingMedications.isEmpty && pendingTasks.isEmpty)
+          const Padding(
+            padding: EdgeInsets.all(AppSpacing.sm),
+            child: Text('Tudo certo por hoje!'),
+          ),
         const SizedBox(height: AppSpacing.xl),
         SectionHeader(title: 'Próximos compromissos', onViewAll: () => context.push('/appointments')),
         const SizedBox(height: AppSpacing.sm),
