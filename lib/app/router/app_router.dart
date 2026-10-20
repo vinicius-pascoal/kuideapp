@@ -22,7 +22,7 @@ import '../../features/contacts/presentation/contacts_screen.dart';
 import '../../features/contacts/presentation/add_contact_screen.dart';
 import '../../features/contacts/presentation/mock_call_screen.dart';
 import '../../features/emergency/presentation/emergency_screen.dart';
-import '../../features/profile/presentation/profile_placeholder_screen.dart';
+import '../../features/profile/presentation/profile_screen.dart';
 import '../../shared/widgets/kuide_scaffold.dart';
 import '../../shared/widgets/module_placeholder_screen.dart';
 
@@ -88,7 +88,7 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/profile',
-              builder: (context, state) => const ProfilePlaceholderScreen(),
+              builder: (context, state) => const ProfileScreen(),
             ),
           ],
         ),
