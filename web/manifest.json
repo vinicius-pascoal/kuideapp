@@ -1,6 +1,6 @@
 {
-    "name": "kuideapp",
-    "short_name": "kuideapp",
+    "name": "KUIDE",
+    "short_name": "KUIDE",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,4 +1,4 @@
-package com.example.kuideapp
+package app.kuide.prototype
 
 import io.flutter.embedding.android.FlutterActivity
 
