@@ -139,25 +139,28 @@ class _LoginHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(top: 24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const KuideLogo(size: 76, framed: true),
-            const SizedBox(height: 12),
-            Text(
-              'KUIDE',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: AppColors.cream,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 3,
-                  ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Seu cuidado, sempre perto.',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.lightText),
-            ),
-          ],
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const KuideLogo(size: 76, framed: true),
+              const SizedBox(height: 12),
+              Text(
+                'KUIDE',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: AppColors.cream,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 3,
+                    ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Seu cuidado, sempre perto.',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.lightText),
+              ),
+            ],
+          ),
         ),
       );
 }

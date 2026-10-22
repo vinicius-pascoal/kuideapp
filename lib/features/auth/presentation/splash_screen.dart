@@ -31,31 +31,41 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => const Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         backgroundColor: AppColors.wine,
         body: SafeArea(
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                KuideLogo(size: 112, framed: true),
-                SizedBox(height: 16),
-                Text(
-                  'KUIDE',
-                  style: TextStyle(
-                    color: AppColors.lightText,
-                    fontSize: 38,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 3,
+          child: LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Center(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        KuideLogo(size: 112, framed: true),
+                        SizedBox(height: 16),
+                        Text(
+                          'KUIDE',
+                          style: TextStyle(
+                            color: AppColors.lightText,
+                            fontSize: 38,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 3,
+                          ),
+                        ),
+                        SizedBox(height: 28),
+                        SizedBox(
+                          width: 28,
+                          height: 28,
+                          child: CircularProgressIndicator(color: AppColors.lightText),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                SizedBox(height: 28),
-                SizedBox(
-                  width: 28,
-                  height: 28,
-                  child: CircularProgressIndicator(color: AppColors.lightText),
-                ),
-              ],
+              ),
             ),
           ),
         ),
