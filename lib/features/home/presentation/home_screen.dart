@@ -19,15 +19,22 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final medications = ref.watch(medicationsProvider);
-    final pendingTasks = ref.watch(tasksProvider).where((task) => !task.completed).toList();
+    final pendingTasks = ref
+        .watch(tasksProvider)
+        .where((task) => !task.completed)
+        .toList();
     final appointments = ref.watch(appointmentsProvider);
     final profile = ref.watch(profileProvider);
     final nextAppointment = appointments.first;
-    final pendingMedications = medications.where((medication) => !medication.taken).toList();
-    final nextMedication = pendingMedications.isEmpty ? medications.first : pendingMedications.first;
+    final pendingMedications = medications
+        .where((medication) => !medication.taken)
+        .toList();
+    final nextMedication = pendingMedications.isEmpty
+        ? medications.first
+        : pendingMedications.first;
 
     return ColoredBox(
-      color: AppColors.white,
+      color: AppColors.cream,
       child: ListView(
         padding: const EdgeInsets.fromLTRB(30, 42, 30, AppSpacing.xl),
         children: [
@@ -43,7 +50,10 @@ class HomeScreen extends ConsumerWidget {
             onRoutineTap: () => context.go('/routine'),
           ),
           const SizedBox(height: 30),
-          SectionHeader(title: 'Acesso rápido', onViewAll: () => context.push('/quick-access')),
+          SectionHeader(
+            title: 'Acesso rápido',
+            onViewAll: () => context.push('/quick-access'),
+          ),
           const SizedBox(height: AppSpacing.sm),
           GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
@@ -55,7 +65,8 @@ class HomeScreen extends ConsumerWidget {
               crossAxisSpacing: AppSpacing.sm,
               childAspectRatio: 1.09,
             ),
-            itemBuilder: (context, index) => _HomeShortcut(item: HomeMockData.quickAccess[index]),
+            itemBuilder: (context, index) =>
+                _HomeShortcut(item: HomeMockData.quickAccess[index]),
           ),
           const SizedBox(height: AppSpacing.xl),
           const SectionHeader(title: 'Ainda falta hoje'),
@@ -80,7 +91,10 @@ class HomeScreen extends ConsumerWidget {
               child: Text('Tudo certo por hoje!'),
             ),
           const SizedBox(height: AppSpacing.xl),
-          SectionHeader(title: 'Próximos compromissos', onViewAll: () => context.push('/appointments')),
+          SectionHeader(
+            title: 'Próximos compromissos',
+            onViewAll: () => context.push('/appointments'),
+          ),
           const SizedBox(height: AppSpacing.sm),
           _OutstandingItem(
             icon: Icons.calendar_month_outlined,
@@ -109,46 +123,49 @@ class _HomeGreeting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  greeting,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: AppColors.darkText,
-                        fontWeight: FontWeight.w500,
-                      ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  name,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: AppColors.wine,
-                        fontWeight: FontWeight.w700,
-                      ),
-                ),
-              ],
-            ),
-          ),
-          Semantics(
-            button: true,
-            label: 'Abrir central de emergência',
-            child: IconButton.filled(
-              onPressed: () => context.push('/emergency'),
-              style: IconButton.styleFrom(
-                backgroundColor: AppColors.wine,
-                foregroundColor: AppColors.lightText,
-                minimumSize: const Size(52, 52),
-                shape: const CircleBorder(),
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              greeting,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: AppColors.darkText,
+                fontWeight: FontWeight.w500,
               ),
-              icon: const Text('SOS', style: TextStyle(fontWeight: FontWeight.w800)),
             ),
+            const SizedBox(height: 4),
+            Text(
+              name,
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                color: AppColors.wine,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
+      Semantics(
+        button: true,
+        label: 'Abrir central de emergência',
+        child: IconButton.filled(
+          onPressed: () => context.push('/emergency'),
+          style: IconButton.styleFrom(
+            backgroundColor: AppColors.wine,
+            foregroundColor: AppColors.lightText,
+            minimumSize: const Size(52, 52),
+            shape: const CircleBorder(),
           ),
-        ],
-      );
+          icon: const Text(
+            'SOS',
+            style: TextStyle(fontWeight: FontWeight.w800),
+          ),
+        ),
+      ),
+    ],
+  );
 }
 
 class _TodayCard extends StatelessWidget {
@@ -172,53 +189,88 @@ class _TodayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        constraints: const BoxConstraints(minHeight: 256),
-        padding: const EdgeInsets.fromLTRB(22, 21, 22, 18),
-        decoration: BoxDecoration(
-          color: AppColors.wine,
-          borderRadius: BorderRadius.circular(28),
+    constraints: const BoxConstraints(minHeight: 256),
+    padding: const EdgeInsets.fromLTRB(22, 21, 22, 18),
+    decoration: BoxDecoration(
+      color: AppColors.wine,
+      borderRadius: BorderRadius.circular(28),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+          decoration: BoxDecoration(
+            color: AppColors.lightText.withValues(alpha: .15),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.today_outlined, color: AppColors.lightText, size: 18),
+              SizedBox(width: AppSpacing.xs),
+              Text(
+                'Sua rotina de hoje',
+                style: TextStyle(
+                  color: AppColors.lightText,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: .15),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.today_outlined, color: AppColors.lightText, size: 18),
-                  SizedBox(width: AppSpacing.xs),
-                  Text('Sua rotina de hoje', style: TextStyle(color: AppColors.lightText, fontWeight: FontWeight.w700)),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text('Seus compromissos', style: TextStyle(color: AppColors.white, fontSize: 21, fontWeight: FontWeight.w700)),
-            const SizedBox(height: 10),
-            _TodayAction(icon: Icons.medication_outlined, title: medication, subtitle: 'Tomar às $medicationTime', onTap: onMedicationTap),
-            const Divider(color: AppColors.lightText),
-            _TodayAction(icon: Icons.calendar_month_outlined, title: appointmentTitle, subtitle: appointmentDetail, onTap: onAppointmentTap),
-            const SizedBox(height: 6),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton.icon(
-                onPressed: onRoutineTap,
-                icon: const Text('Ver rotina completa', style: TextStyle(color: AppColors.lightText)),
-                label: const Icon(Icons.arrow_forward, color: AppColors.lightText, size: 18),
-                iconAlignment: IconAlignment.end,
-              ),
-            ),
-          ],
+        const SizedBox(height: 20),
+        const Text(
+          'Seus compromissos',
+          style: TextStyle(
+            color: AppColors.white,
+            fontSize: 21,
+            fontWeight: FontWeight.w700,
+          ),
         ),
-      );
+        const SizedBox(height: 10),
+        _TodayAction(
+          icon: Icons.medication_outlined,
+          title: medication,
+          subtitle: 'Tomar às $medicationTime',
+          onTap: onMedicationTap,
+        ),
+        const Divider(color: AppColors.lightText),
+        _TodayAction(
+          icon: Icons.calendar_month_outlined,
+          title: appointmentTitle,
+          subtitle: appointmentDetail,
+          onTap: onAppointmentTap,
+        ),
+        const SizedBox(height: 6),
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton.icon(
+            onPressed: onRoutineTap,
+            icon: const Text(
+              'Ver rotina completa',
+              style: TextStyle(color: AppColors.lightText),
+            ),
+            label: const Icon(
+              Icons.arrow_forward,
+              color: AppColors.lightText,
+              size: 18,
+            ),
+            iconAlignment: IconAlignment.end,
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 class _TodayAction extends StatelessWidget {
-  const _TodayAction({required this.icon, required this.title, required this.subtitle, required this.onTap});
+  const _TodayAction({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
 
   final IconData icon;
   final String title;
@@ -227,28 +279,37 @@ class _TodayAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-          child: Row(
-            children: [
-              Icon(icon, color: AppColors.lightText),
-              const SizedBox(width: AppSpacing.sm),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.w700)),
-                    Text(subtitle, style: const TextStyle(color: AppColors.lightText)),
-                  ],
+    onTap: onTap,
+    borderRadius: BorderRadius.circular(12),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+      child: Row(
+        children: [
+          Icon(icon, color: AppColors.lightText),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: AppColors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-              const Icon(Icons.chevron_right, color: AppColors.lightText),
-            ],
+                Text(
+                  subtitle,
+                  style: const TextStyle(color: AppColors.lightText),
+                ),
+              ],
+            ),
           ),
-        ),
-      );
+          const Icon(Icons.chevron_right, color: AppColors.lightText),
+        ],
+      ),
+    ),
+  );
 }
 
 class _HomeShortcut extends StatelessWidget {
@@ -258,46 +319,56 @@ class _HomeShortcut extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Material(
-        color: AppColors.wine.withValues(alpha: .12),
-        borderRadius: BorderRadius.circular(15),
-        child: InkWell(
-          onTap: () => item.route == '/health' || item.route == '/routine' ? context.go(item.route) : context.push(item.route),
+    color: AppColors.cardTint,
+    borderRadius: BorderRadius.circular(15),
+    child: InkWell(
+      onTap: () => item.route == '/health' || item.route == '/routine'
+          ? context.go(item.route)
+          : context.push(item.route),
+      borderRadius: BorderRadius.circular(15),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.cardBorder),
           borderRadius: BorderRadius.circular(15),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.wine.withValues(alpha: .5)),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            padding: const EdgeInsets.all(AppSpacing.xs),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: const BoxDecoration(color: AppColors.wine, shape: BoxShape.circle),
-                  child: Icon(item.icon, size: 27, color: AppColors.white),
-                ),
-                const SizedBox(height: AppSpacing.xs),
-                Text(
-                  item.label,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppColors.darkText,
-                        fontWeight: FontWeight.w700,
-                      ),
-                ),
-              ],
-            ),
-          ),
         ),
-      );
+        padding: const EdgeInsets.all(AppSpacing.xs),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 50,
+              height: 50,
+              decoration: const BoxDecoration(
+                color: AppColors.wine,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(item.icon, size: 27, color: AppColors.white),
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              item.label,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: AppColors.darkText,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }
 
 class _OutstandingItem extends StatelessWidget {
-  const _OutstandingItem({required this.icon, required this.title, required this.detail, required this.onTap});
+  const _OutstandingItem({
+    required this.icon,
+    required this.title,
+    required this.detail,
+    required this.onTap,
+  });
 
   final IconData icon;
   final String title;
@@ -306,26 +377,26 @@ class _OutstandingItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-        child: AppCard(
-          onTap: onTap,
-          tint: false,
-          child: Row(
-            children: [
-              Icon(icon, color: AppColors.wine),
-              const SizedBox(width: AppSpacing.sm),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: Theme.of(context).textTheme.titleMedium),
-                    Text(detail),
-                  ],
-                ),
-              ),
-              const Icon(Icons.chevron_right),
-            ],
+    padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+    child: AppCard(
+      onTap: onTap,
+      tint: false,
+      child: Row(
+        children: [
+          Icon(icon, color: AppColors.wine),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: Theme.of(context).textTheme.titleMedium),
+                Text(detail),
+              ],
+            ),
           ),
-        ),
-      );
+          const Icon(Icons.chevron_right),
+        ],
+      ),
+    ),
+  );
 }
