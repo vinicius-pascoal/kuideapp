@@ -22,7 +22,11 @@ class _QuickAccessScreenState extends State<QuickAccessScreen> {
   Widget build(BuildContext context) {
     final normalizedQuery = _query.toLowerCase().trim();
     final items = HomeMockData.expandedQuickAccess
-        .where((item) => '${item.label} ${item.description}'.toLowerCase().contains(normalizedQuery))
+        .where(
+          (item) => '${item.label} ${item.description}'.toLowerCase().contains(
+            normalizedQuery,
+          ),
+        )
         .toList();
     return Scaffold(
       body: SafeArea(
@@ -32,20 +36,24 @@ class _QuickAccessScreenState extends State<QuickAccessScreen> {
             children: [
               AppHeader(title: 'Acesso rápido', onBack: () => context.pop()),
               const SizedBox(height: AppSpacing.md),
-              AppSearchField(onChanged: (value) => setState(() => _query = value)),
+              AppSearchField(
+                onChanged: (value) => setState(() => _query = value),
+              ),
               const SizedBox(height: AppSpacing.lg),
               Expanded(
                 child: items.isEmpty
                     ? const Center(child: Text('Nenhum atalho encontrado.'))
                     : GridView.builder(
                         itemCount: items.length,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           mainAxisSpacing: AppSpacing.sm,
                           crossAxisSpacing: AppSpacing.sm,
-                          childAspectRatio: 1.12,
+                          childAspectRatio:
+                              1.12 / MediaQuery.textScalerOf(context).scale(1),
                         ),
-                        itemBuilder: (context, index) => _QuickAccessCard(item: items[index]),
+                        itemBuilder: (context, index) =>
+                            _QuickAccessCard(item: items[index]),
                       ),
               ),
             ],
@@ -63,16 +71,32 @@ class _QuickAccessCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AppCard(
-        onTap: () => context.push(item.route),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(item.icon, size: 34),
-            const SizedBox(height: AppSpacing.xs),
-            Text(item.label, textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: AppSpacing.xxs),
-            Text(item.description, textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodySmall),
-          ],
+    onTap: () => context.push(item.route),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(item.icon, size: 34),
+        const SizedBox(height: AppSpacing.xs),
+        Flexible(
+          child: Text(
+            item.label,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
         ),
-      );
+        const SizedBox(height: AppSpacing.xxs),
+        Flexible(
+          child: Text(
+            item.description,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ),
+      ],
+    ),
+  );
 }

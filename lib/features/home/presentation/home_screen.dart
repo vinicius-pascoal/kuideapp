@@ -63,7 +63,7 @@ class HomeScreen extends ConsumerWidget {
               crossAxisCount: 3,
               mainAxisSpacing: AppSpacing.sm,
               crossAxisSpacing: AppSpacing.sm,
-              childAspectRatio: 1.09,
+              mainAxisExtent: 112,
             ),
             itemBuilder: (context, index) =>
                 _HomeShortcut(item: HomeMockData.quickAccess[index]),
@@ -345,14 +345,16 @@ class _HomeShortcut extends StatelessWidget {
               child: Icon(item.icon, size: 27, color: AppColors.white),
             ),
             const SizedBox(height: AppSpacing.xs),
-            Text(
-              item.label,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppColors.darkText,
-                fontWeight: FontWeight.w700,
+            Flexible(
+              child: Text(
+                item.label,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColors.darkText,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ],
