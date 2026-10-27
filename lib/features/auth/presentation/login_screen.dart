@@ -7,7 +7,6 @@ import '../../../app/theme/app_spacing.dart';
 import '../../../core/providers/app_providers.dart';
 import '../../../shared/widgets/app_buttons.dart';
 import '../../../shared/widgets/kuide_logo.dart';
-import '../../../shared/widgets/mock_action_dialog.dart';
 import 'auth_validators.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -43,13 +42,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _continueWithGoogleMock() async {
-    await MockActionDialog.show(
-      context,
-      title: 'Entrada Google simulada',
-      message: 'Nenhuma conta Google será acessada. Você continuará usando dados locais de demonstração.',
-      confirmLabel: 'Continuar',
-    );
-    if (!mounted) return;
+    final shouldSignIn = await context.push<bool>('/auth/google');
+    if (!mounted || shouldSignIn != true) return;
     await ref.read(authSessionProvider.notifier).signInWithGoogleMock();
     if (mounted) context.go('/home');
   }

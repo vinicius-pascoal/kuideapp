@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/catalog/presentation/widget_catalog_screen.dart';
 import '../../features/auth/presentation/login_screen.dart';
+import '../../features/auth/presentation/google_sign_in_demo_screen.dart';
 import '../../features/auth/presentation/logout_screen.dart';
 import '../../features/auth/presentation/register_screen.dart';
 import '../../features/auth/presentation/splash_screen.dart';
@@ -13,6 +14,7 @@ import '../../features/home/presentation/quick_access_screen.dart';
 import '../../features/health/presentation/health_history_screen.dart';
 import '../../features/medications/presentation/add_medication_screen.dart';
 import '../../features/medications/presentation/medications_screen.dart';
+import '../../features/medications/presentation/prescription_demo_screen.dart';
 import '../../features/routine/presentation/routine_screen.dart';
 import '../../features/tasks/presentation/tasks_screen.dart';
 import '../../features/appointments/presentation/appointments_screen.dart';
@@ -31,6 +33,7 @@ final GoRouter appRouter = GoRouter(
   routes: [
     GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
     GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+    GoRoute(path: '/auth/google', builder: (context, state) => const GoogleSignInDemoScreen()),
     GoRoute(path: '/register', builder: (context, state) => const RegisterScreen()),
     GoRoute(path: '/logout', builder: (context, state) => const LogoutScreen()),
     GoRoute(
@@ -47,6 +50,7 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(path: '/quick-access', builder: (context, state) => const QuickAccessScreen()),
     GoRoute(path: '/medications', builder: (context, state) => const MedicationsScreen()),
+    GoRoute(path: '/medications/prescription', builder: (context, state) => const PrescriptionDemoScreen()),
     GoRoute(path: '/medications/add', builder: (context, state) => const AddMedicationScreen()),
     GoRoute(path: '/appointments', builder: (context, state) => const AppointmentsScreen()),
     GoRoute(path: '/appointments/add', builder: (context, state) => const AddAppointmentScreen()),

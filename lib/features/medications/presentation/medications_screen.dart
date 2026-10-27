@@ -7,7 +7,6 @@ import '../../../app/theme/app_spacing.dart';
 import '../../../shared/widgets/app_buttons.dart';
 import '../../../shared/widgets/app_card.dart';
 import '../../../shared/widgets/app_header.dart';
-import '../../../shared/widgets/mock_action_dialog.dart';
 import '../domain/medication.dart';
 import 'medication_provider.dart';
 
@@ -33,11 +32,7 @@ class MedicationsScreen extends ConsumerWidget {
             SecondaryButton(
               label: 'Ver receita médica',
               icon: Icons.description_outlined,
-              onPressed: () => MockActionDialog.show(
-                context,
-                title: 'Receita simulada',
-                message: 'Nenhuma receita ou dado de saúde foi aberto. Esta é apenas uma representação visual.',
-              ),
+              onPressed: () => context.push('/medications/prescription'),
             ),
           ],
         ),
