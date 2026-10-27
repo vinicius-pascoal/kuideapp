@@ -12,12 +12,14 @@ class AppCard extends StatelessWidget {
     this.onTap,
     this.padding = const EdgeInsets.all(AppSpacing.md),
     this.tint = true,
+    this.showShadow = true,
   });
 
   final Widget child;
   final VoidCallback? onTap;
   final EdgeInsetsGeometry padding;
   final bool tint;
+  final bool showShadow;
 
   @override
   Widget build(BuildContext context) => Material(
@@ -31,7 +33,7 @@ class AppCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: AppRadii.card,
               border: Border.all(color: AppColors.cardBorder),
-              boxShadow: AppShadows.card,
+              boxShadow: showShadow ? AppShadows.card : null,
             ),
             child: child,
           ),

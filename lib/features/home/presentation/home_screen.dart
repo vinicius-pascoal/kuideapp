@@ -382,7 +382,7 @@ class _OutstandingItem extends StatelessWidget {
     padding: const EdgeInsets.only(bottom: AppSpacing.sm),
     child: AppCard(
       onTap: onTap,
-      tint: false,
+      showShadow: false,
       child: Row(
         children: [
           Icon(icon, color: AppColors.wine),
