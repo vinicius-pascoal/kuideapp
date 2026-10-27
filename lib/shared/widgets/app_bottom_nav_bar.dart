@@ -18,9 +18,12 @@ class AppBottomNavBar extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) => NavigationBar(
-        selectedIndex: currentIndex,
-        onDestinationSelected: onDestinationSelected,
-        destinations: _destinations,
-      );
+  Widget build(BuildContext context) => ClipRRect(
+    borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+    child: NavigationBar(
+      selectedIndex: currentIndex,
+      onDestinationSelected: onDestinationSelected,
+      destinations: _destinations,
+    ),
+  );
 }
