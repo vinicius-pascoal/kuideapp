@@ -160,7 +160,10 @@ class _HomeGreeting extends StatelessWidget {
           ),
           icon: const Text(
             'SOS',
-            style: TextStyle(fontWeight: FontWeight.w800),
+            style: TextStyle(
+              color: AppColors.white,
+              fontWeight: FontWeight.w800,
+            ),
           ),
         ),
       ),
@@ -382,7 +385,6 @@ class _OutstandingItem extends StatelessWidget {
     padding: const EdgeInsets.only(bottom: AppSpacing.sm),
     child: AppCard(
       onTap: onTap,
-      showShadow: false,
       child: Row(
         children: [
           Icon(icon, color: AppColors.wine),

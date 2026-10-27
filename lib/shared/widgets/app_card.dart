@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../app/theme/app_radii.dart';
-import '../../app/theme/app_shadows.dart';
 import '../../app/theme/app_spacing.dart';
 
 class AppCard extends StatelessWidget {
@@ -12,14 +11,12 @@ class AppCard extends StatelessWidget {
     this.onTap,
     this.padding = const EdgeInsets.all(AppSpacing.md),
     this.tint = true,
-    this.showShadow = true,
   });
 
   final Widget child;
   final VoidCallback? onTap;
   final EdgeInsetsGeometry padding;
   final bool tint;
-  final bool showShadow;
 
   @override
   Widget build(BuildContext context) => Material(
@@ -33,7 +30,6 @@ class AppCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: AppRadii.card,
               border: Border.all(color: AppColors.cardBorder),
-              boxShadow: showShadow ? AppShadows.card : null,
             ),
             child: child,
           ),

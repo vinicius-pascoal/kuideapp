@@ -101,33 +101,113 @@ class _DaySelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final today = DateUtils.dateOnly(DateTime.now());
-    return SizedBox(
-      height: 74,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: 7,
-        separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.xs),
-        itemBuilder: (context, index) {
-          final offset = index - 3;
-          final date = today.add(Duration(days: offset));
-          final selected = offset == selectedOffset;
-          return ChoiceChip(
-            selected: selected,
-            onSelected: (_) => onSelected(offset),
-            selectedColor: AppColors.wine,
-            labelStyle: TextStyle(color: selected ? AppColors.white : AppColors.darkText),
-            label: SizedBox(
-              width: 42,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(const ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'][date.weekday - 1]),
-                  Text('${date.day}', style: const TextStyle(fontWeight: FontWeight.w700)),
-                ],
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
+    final selectedDate = today.add(Duration(days: selectedOffset));
+    final visibleDates = List.generate(
+      4,
+      (index) => selectedDate.add(Duration(days: index - 2)),
+    );
+
+    return Container(
+      // The app lets people increase the font size, so the selector scales
+      // vertically with the active text scale instead of clipping its labels.
+      height: 66 * textScale,
+      padding: const EdgeInsets.all(7),
+      decoration: BoxDecoration(
+        color: AppColors.lightText.withValues(alpha: .62),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.wine.withValues(alpha: .5)),
+      ),
+      child: Row(
+        children: [
+          _DaySelectorArrow(
+            icon: Icons.arrow_back,
+            onTap: () => onSelected(selectedOffset - 1),
+          ),
+          const SizedBox(width: 4),
+          for (var index = 0; index < visibleDates.length; index++)
+            Expanded(
+              child: _DaySelectorDate(
+                date: visibleDates[index],
+                selected: index == 2,
+                onTap: () => onSelected(selectedOffset + index - 2),
               ),
             ),
-          );
-        },
+          const SizedBox(width: 4),
+          _DaySelectorArrow(
+            icon: Icons.arrow_forward,
+            onTap: () => onSelected(selectedOffset + 1),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DaySelectorArrow extends StatelessWidget {
+  const _DaySelectorArrow({required this.icon, required this.onTap});
+
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => Material(
+    color: AppColors.lightText.withValues(alpha: .52),
+    borderRadius: BorderRadius.circular(8),
+    child: InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: SizedBox(
+        width: 30,
+        child: Icon(icon, size: 18, color: AppColors.wine),
+      ),
+    ),
+  );
+}
+
+class _DaySelectorDate extends StatelessWidget {
+  const _DaySelectorDate({
+    required this.date,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final DateTime date;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final isToday = DateUtils.isSameDay(date, DateTime.now());
+    final textColor = selected ? AppColors.white : AppColors.wine;
+    final weekday = const ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'][date.weekday - 1];
+
+    return Material(
+      color: selected ? AppColors.wine : Colors.transparent,
+      borderRadius: BorderRadius.circular(8),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              weekday,
+              style: TextStyle(color: textColor, fontSize: 9, fontWeight: FontWeight.w600),
+            ),
+            Text(
+              '${date.day}',
+              style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.w800),
+            ),
+            SizedBox(
+              height: 8,
+              child: Text(
+                isToday ? 'HOJE' : '',
+                style: TextStyle(color: textColor, fontSize: 6, fontWeight: FontWeight.w700),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
