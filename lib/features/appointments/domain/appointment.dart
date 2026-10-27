@@ -1,7 +1,11 @@
-enum AppointmentType { consultation, exam }
+enum AppointmentType { consultation, exam, other }
 
 extension AppointmentTypeLabel on AppointmentType {
-  String get label => this == AppointmentType.consultation ? 'Consulta' : 'Exame';
+  String get label => switch (this) {
+    AppointmentType.consultation => 'Consulta',
+    AppointmentType.exam => 'Exame',
+    AppointmentType.other => 'Outro',
+  };
 }
 
 class Appointment {
