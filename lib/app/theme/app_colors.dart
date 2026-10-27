@@ -13,6 +13,8 @@ abstract final class AppColors {
   static const white = Colors.white;
   static const cardTint = Color(0x337A1624);
   static const cardBorder = Color(0x807A1624);
+  static const formField = Color(0xFFD7C1AF);
+  static const formFieldBorder = Color(0xFFB66A6B);
   static const error = Color(0xFFD32F2F);
   static const success = Color(0xFF4CAF50);
   static const successDark = Color(0xFF2E7D32);
